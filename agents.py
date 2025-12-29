@@ -3,25 +3,66 @@ from config import config_list
 
 planner = AssistantAgent(
     name="Planner",
-    system_message="Break the task into clear steps.",
+    system_message="""
+You are a task planner.
+Your job:
+- Understand the user question
+- Break it into clear sub-tasks
+- Decide which agent should handle each part
+- Do NOT give final answers
+""",
+    llm_config={"config_list": config_list}
+)
+
+architect = AssistantAgent(
+    name="Architect",
+    system_message="""
+You are a senior system architect.
+Your job:
+- Focus on system design and architecture
+- Compare approaches at a high level
+- Use diagrams-in-words if helpful
+- Avoid implementation details unless needed
+""",
     llm_config={"config_list": config_list}
 )
 
 researcher = AssistantAgent(
     name="Researcher",
-    system_message="Research the topic thoroughly.",
+    system_message="""
+You are a technical researcher.
+Your job:
+- Provide real-world examples
+- Mention industry use-cases
+- Reference known systems or patterns
+- Avoid opinions, focus on facts
+""",
     llm_config={"config_list": config_list}
 )
 
 critic = AssistantAgent(
     name="Critic",
-    system_message="Review for correctness and gaps.",
+    system_message="""
+You are a critical reviewer.
+Your job:
+- Identify weaknesses, risks, and trade-offs
+- Point out when something may not scale
+- Question assumptions
+- Be constructive, not negative
+""",
     llm_config={"config_list": config_list}
 )
 
 writer = AssistantAgent(
     name="Writer",
-    system_message="Write a clear final answer.",
+    system_message="""
+You are a technical writer.
+Your job:
+- Combine all agent inputs
+- Produce a clean, structured final answer
+- Use simple language
+- Make it suitable for blogs or interviews
+""",
     llm_config={"config_list": config_list}
 )
 
