@@ -1,6 +1,10 @@
 from autogen import GroupChat, GroupChatManager
-from agents import user, planner, architect, researcher, critic, writer
+from agents import create_agents
+import uuid
 
+SESSION_ID = str(uuid.uuid4())
+
+user, planner, writer, critic, researcher, architect = create_agents(SESSION_ID)
 groupchat = GroupChat(
     agents=[user, planner, architect, researcher, critic, writer],
     messages=[],
