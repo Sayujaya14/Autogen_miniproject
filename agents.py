@@ -1,4 +1,5 @@
 from autogen import AssistantAgent, UserProxyAgent
+from memory import save_message
 from config import config_list
 
 planner = AssistantAgent(
@@ -11,7 +12,11 @@ Your job:
 - Decide which agent should handle each part
 - Do NOT give final answers
 """,
-    llm_config={"config_list": config_list}
+    llm_config={"config_list": config_list},
+    is_termination_msg=lambda msg: (
+        save_message("session-1", "Planner", msg["role"], msg["content"])
+        or False
+    )
 )
 
 architect = AssistantAgent(
@@ -24,7 +29,11 @@ Your job:
 - Use diagrams-in-words if helpful
 - Avoid implementation details unless needed
 """,
-    llm_config={"config_list": config_list}
+    llm_config={"config_list": config_list},
+    is_termination_msg=lambda msg: (
+        save_message("session-1", "Architect", msg["role"], msg["content"])
+        or False
+    )
 )
 
 researcher = AssistantAgent(
@@ -37,7 +46,11 @@ Your job:
 - Reference known systems or patterns
 - Avoid opinions, focus on facts
 """,
-    llm_config={"config_list": config_list}
+    llm_config={"config_list": config_list},
+    is_termination_msg=lambda msg: (
+        save_message("session-1", "Researcher", msg["role"], msg["content"])
+        or False
+    )
 )
 
 critic = AssistantAgent(
@@ -50,7 +63,11 @@ Your job:
 - Question assumptions
 - Be constructive, not negative
 """,
-    llm_config={"config_list": config_list}
+    llm_config={"config_list": config_list},
+    is_termination_msg=lambda msg: (
+        save_message("session-1", "Critic", msg["role"], msg["content"])
+        or False
+    )
 )
 
 writer = AssistantAgent(
@@ -63,7 +80,11 @@ Your job:
 - Use simple language
 - Make it suitable for blogs or interviews
 """,
-    llm_config={"config_list": config_list}
+    llm_config={"config_list": config_list},
+    is_termination_msg=lambda msg: (
+        save_message("session-1", "Writer", msg["role"], msg["content"])
+        or False
+    )
 )
 
 user = UserProxyAgent(
